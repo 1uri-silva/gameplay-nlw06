@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { FlatList } from 'react-native-gesture-handler';
-import Appointments from '../../components/Appointments';
-import ButtonAdd from '../../components/ButtonAdd';
 
+import Appointments from '../../components/Appointments';
+import Background from '../../components/Background';
+import ButtonAdd from '../../components/ButtonAdd';
 import CategorySelect from '../../components/CategorySelect';
 import ListDivider from '../../components/ListDivider';
 import ListHeader from '../../components/ListHeader';
@@ -12,6 +14,7 @@ import Profile from '../../components/Profile';
 import styles from './styles';
 
 const Home: React.FC = () => {
+  const navigation = useNavigation();
 
   const appointments = [
     {
@@ -47,12 +50,20 @@ const Home: React.FC = () => {
     categoryId === category ? setCategory('') : setCategory(categoryId);
   }
 
+  function handleAppointmentsDetails() {
+    navigation.navigate('AppointmentsDetails')
+  }
+
+  function handleAppointmentsCreate() {
+    navigation.navigate('AppointmentsCreate')
+  }
+
   return (
-    <View>
+    <Background>
 
       <View style={styles.header}>
         <Profile/>
-        <ButtonAdd/>
+        <ButtonAdd onPress={handleAppointmentsCreate} />
       </View>
 
       <View>
@@ -77,12 +88,13 @@ const Home: React.FC = () => {
           renderItem={({ item }) => (
             <Appointments
               data={item}
+              onPress={handleAppointmentsDetails}
             />
           )}
         />
       </View>
 
-    </View>
+    </Background>
   );
 }
 

@@ -41,7 +41,7 @@ const Appointments: React.FC<Props> = ({data, ...rest}) => {
       style={styles.container}
       {...rest}
     >
-      <View>
+      <View style={styles.container}>
         <GuildIcon />
 
         <View style={styles.content}>
@@ -50,12 +50,14 @@ const Appointments: React.FC<Props> = ({data, ...rest}) => {
             <Text style={styles.title}>
               {data.guild.name}
             </Text>
+
             <Text style={styles.category}>
               {category.title}
             </Text>
           </View>
 
           <View style={styles.footer}>
+
             <View style={styles.dateInfo}>
               <Calendar />
               <Text style={styles.date}>
@@ -64,10 +66,12 @@ const Appointments: React.FC<Props> = ({data, ...rest}) => {
             </View>
 
             <View style={styles.playerInfo}>
+
               <Player fill={ owner ? primary : on}/>
               <Text style={[styles.player, { color: owner ? primary : on}]}>
                 {owner ? 'Anfitrião' : 'Visitante'}
               </Text>
+
             </View>
           </View>
         </View>
