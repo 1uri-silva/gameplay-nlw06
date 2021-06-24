@@ -15,7 +15,8 @@ import Button from '../../components/Button';
 import ModalView from '../../components/Modal';
 import Guilds from '../Guilds';
 
-import { GuildProps } from '../../components/Appointments';
+import { GuildProps } from '../../components/GuildItems';
+
 
 const AppointmentsCreate: React.FC = () => {
   const [category, setCategory] = useState('');
