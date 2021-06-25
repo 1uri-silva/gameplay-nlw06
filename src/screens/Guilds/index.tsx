@@ -16,7 +16,13 @@ const Guilds: React.FC<Props> = ({handleGuildsSelect}) => {
       name: 'Lendários',
       icon: null,
       owner: true
-    }
+    },
+    {
+      id: '2',
+      name: 'Lendários',
+      icon: null,
+      owner: true
+    },
   ];
 
   return (
@@ -24,8 +30,10 @@ const Guilds: React.FC<Props> = ({handleGuildsSelect}) => {
       <FlatList
         data={guilds}
         keyExtractor={item => item.id}
-        ItemSeparatorComponent={() => <ListDivider />}
+        ItemSeparatorComponent={() => <ListDivider isCenter />}
+        ListHeaderComponent={() => <ListDivider isCenter />}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 68, paddingTop: 104 }}
         style={styles.guilds}
         renderItem={({item}) => (
           <GuildItems

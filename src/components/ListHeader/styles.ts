@@ -5,6 +5,7 @@ import { theme } from '../../global/styles/theme';
 const styles = StyleSheet.create({
   container: {
     width: '100%',
+    marginTop: 27,
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 24,

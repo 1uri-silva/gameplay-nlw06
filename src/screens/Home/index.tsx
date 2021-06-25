@@ -40,8 +40,7 @@ const Home: React.FC = () => {
       category: '1',
       date: '22/06 às 20:40h',
       description: 'É hoje que vamos chegar ao challenger sem perder uma partida da md10'      
-    },
-    
+    }
   ]
   
   const [category, setCategory] = useState('');
@@ -73,26 +72,25 @@ const Home: React.FC = () => {
         />
       </View>
     
-      <View style={styles.content}>
-        <ListHeader
-          title='Partidas agendadas'
-          subTitle='Total 6'
-        />
+      <ListHeader
+        title='Partidas agendadas'
+        subTitle='Total 6'
+      />
 
-        <FlatList
-          data={appointments}
-          keyExtractor={item => item.id}
-          showsHorizontalScrollIndicator={false}
-          ItemSeparatorComponent={() => <ListDivider/>}
-          style={styles.matches}
-          renderItem={({ item }) => (
-            <Appointments
-              data={item}
-              onPress={handleAppointmentsDetails}
-            />
-          )}
-        />
-      </View>
+      <FlatList
+        data={appointments}
+        keyExtractor={item => item.id}
+        showsHorizontalScrollIndicator={false}
+        ItemSeparatorComponent={() => <ListDivider/>}
+        style={styles.matches}
+        contentContainerStyle={{ paddingBottom: 69 }}
+        renderItem={({ item }) => (
+          <Appointments
+            data={item}
+            onPress={handleAppointmentsDetails}
+          />
+        )}
+      />
 
     </Background>
   );

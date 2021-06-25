@@ -10,7 +10,6 @@ const styles = StyleSheet.create({
   banner: {
     width: '100%',
     height: 234,
-    marginBottom: 30,
   },
   content: {
     flex: 1,
@@ -25,6 +24,7 @@ const styles = StyleSheet.create({
   },
   subTitle: {
     fontSize: 13,
+    lineHeight: 21,
     fontFamily: fonts.font.text400,
     color: theme.colors.heading,
   },

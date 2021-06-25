@@ -62,7 +62,7 @@ const AppointmentsDetails: React.FC = () => {
       <FlatList
         data={members}
         keyExtractor={item => item.id}
-        ItemSeparatorComponent={() => <ListDivider/>}
+        ItemSeparatorComponent={() => <ListDivider isCenter />}
         style={styles.members}
         renderItem={({item}) => (
           <Member data={item} />

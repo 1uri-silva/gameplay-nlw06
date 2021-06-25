@@ -6,13 +6,17 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: 95,
-    backgroundColor: theme.colors.secondary40,
-    color: theme.colors.heading,
-    borderRadius: 8,
-    fontFamily: fonts.font.text400,
     fontSize: 13,
+    borderWidth: 1,
+    paddingTop: 16,
     marginRight: 4,
-    textAlign: 'center',
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    textAlignVertical: 'top',
+    color: theme.colors.heading,
+    fontFamily: fonts.font.text400,
+    borderColor: theme.colors.secondary50,
+    backgroundColor: theme.colors.secondary40,
   },
 });
 
