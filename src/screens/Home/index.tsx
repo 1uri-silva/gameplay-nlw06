@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { FlatList } from 'react-native-gesture-handler';
+import React, { useState, useCallback } from 'react';
+import { View, FlatList } from 'react-native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import Appointments from '../../components/Appointments';
+import Appointments, { AppointmentsProps } from '../../components/Appointments';
 import Background from '../../components/Background';
 import ButtonAdd from '../../components/ButtonAdd';
 import CategorySelect from '../../components/CategorySelect';
@@ -12,50 +12,44 @@ import ListHeader from '../../components/ListHeader';
 import Profile from '../../components/Profile';
 
 import styles from './styles';
+import { COLLECTION_APPOINTMENTS } from '../../configs/storage';
+import Loading from '../../components/Loading';
 
 const Home: React.FC = () => {
   const navigation = useNavigation();
-
-  const appointments = [
-    {
-      id: '1',
-      guild: {
-        id: '1',
-        name: 'Lendários',
-        icon: null,
-        owner: true
-      },
-      category: '1',
-      date: '22/06 às 20:40h',
-      description: 'É hoje que vamos chegar ao challenger sem perder uma partida da md10'      
-    },
-    {
-      id: '2',
-      guild: {
-        id: '1',
-        name: 'Lendários',
-        icon: null,
-        owner: true
-      },
-      category: '1',
-      date: '22/06 às 20:40h',
-      description: 'É hoje que vamos chegar ao challenger sem perder uma partida da md10'      
-    }
-  ]
   
   const [category, setCategory] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [appointments, setAppointments] = useState<AppointmentsProps[]>([]);
 
   function handleSetCategory(categoryId: string) {
     categoryId === category ? setCategory('') : setCategory(categoryId);
   }
 
-  function handleAppointmentsDetails() {
-    navigation.navigate('AppointmentsDetails')
+  function handleAppointmentsDetails(guildSelected: AppointmentsProps) {
+    navigation.navigate('AppointmentsDetails', { guildSelected });
   }
 
   function handleAppointmentsCreate() {
     navigation.navigate('AppointmentsCreate')
   }
+
+  async function loadAppointments() {
+    const storage = await AsyncStorage.getItem(COLLECTION_APPOINTMENTS);
+    const appointmentStorage: AppointmentsProps[] = storage ? JSON.parse(storage) : [];
+
+    if(category) {
+      setAppointments(appointmentStorage.filter(item => item.category === category));
+    } else {
+      setAppointments(appointmentStorage)
+    }
+
+    setLoading(false);
+  }
+
+  useFocusEffect( useCallback(() => {
+    loadAppointments();
+  }, [category]));
 
   return (
     <Background>
@@ -72,25 +66,30 @@ const Home: React.FC = () => {
         />
       </View>
     
-      <ListHeader
-        title='Partidas agendadas'
-        subTitle='Total 6'
-      />
-
-      <FlatList
-        data={appointments}
-        keyExtractor={item => item.id}
-        showsHorizontalScrollIndicator={false}
-        ItemSeparatorComponent={() => <ListDivider/>}
-        style={styles.matches}
-        contentContainerStyle={{ paddingBottom: 69 }}
-        renderItem={({ item }) => (
-          <Appointments
-            data={item}
-            onPress={handleAppointmentsDetails}
+      {   
+        loading ? <Loading /> :
+        <>  
+          <ListHeader
+            title='Partidas agendadas'
+            subTitle={`Total ${appointments.length}`}
           />
-        )}
-      />
+
+          <FlatList
+            data={appointments}
+            keyExtractor={item => item.id}
+            showsHorizontalScrollIndicator={false}
+            ItemSeparatorComponent={() => <ListDivider/>}
+            style={styles.matches}
+            contentContainerStyle={{ paddingBottom: 69 }}
+            renderItem={({ item }) => (
+              <Appointments
+                data={item}
+                onPress={() => handleAppointmentsDetails(item)}
+              />
+            )}
+          />
+        </>
+      }
 
     </Background>
   );
